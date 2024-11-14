@@ -1,236 +1,158 @@
-#include "tlist.h"
+#include "tstack.h"
 
 #include <gtest.h>
 
-TEST(tList, can_create_vector_not_parametr)
+TEST(tStack, can_create_stack_not_parametr)
 {
-	ASSERT_NO_THROW(List<int> l);
+	ASSERT_NO_THROW(Stack<int> s);
 }
 
-TEST(tList, can_create_vector_with_positive_length)
+TEST(tStack, can_create_stack_with_one_parametr)
 {
-	ASSERT_NO_THROW(List<int> l(5));
+	ASSERT_NO_THROW(Stack<int> s(2));
 }
 
-TEST(tList, can_create_vector_with_negative_length)
+TEST(tStack, can_create_stack_with_two_parametr)
 {
-	ASSERT_ANY_THROW(List<int> l(-2));
+	ASSERT_NO_THROW(Stack<int> s(2, 0));
 }
 
-TEST(tList, can_create_vector_with_large_length)
+TEST(tStack, test_operator_ravno_equal_length)
 {
-	ASSERT_NO_THROW(List<long long> l(9999));
+	Stack<int> s(1, 0);
+	Stack<int> s1(2, 0);
+
+	s.push(3);
+
+	s1 = s;
+
+	EXPECT_EQ(s, s1);
 }
 
-TEST(tList, test_operator_ravno_equal_length)
+TEST(tStack, test_operator_ravno_different_length)
 {
-	List<int> l(2, 0);
-	List<int> l1(2, 0);
+	Stack<int> s(2, 0);
+	Stack<int> s1(2, 0);
 
-	l[1] = 1;
+	s.push(3);
 
-	l1 = l;
+	s1 = s;
 
-	EXPECT_EQ(l, l1);
+	EXPECT_EQ(s, s1);
 }
 
-TEST(tList, test_operator_ravno_different_length)
+TEST(tStack, test_operator_ravno_equal_list)
 {
-	List<int> l(2, 0);
-	List<int> l1(5, 0);
+	Stack<int> s(1, 0);
+	Stack<int> s1(1, 0);
 
-	l[1] = 1;
-	l[0] = 23;
+	s.push(3);
+	s1.push(3);
 
-	l1 = l;
+	s1 = s;
 
-	EXPECT_EQ(l, l1);
+	EXPECT_EQ(s, s1);
 }
 
-TEST(tList, test_operator_ravno_equal_list)
+TEST(tStack, test_operator_ravno_different_memory)
 {
-	List<int> l(2, 0);
-	List<int> l1(2, 0);
+	Stack<int> s(1, 0);
+	Stack<int> s1(2, 0);
 
-	l[1] = 1;
-	l1[1] = 1;
+	s.push(3);
 
-	l1 = l;
-
-	EXPECT_EQ(l, l1);
-}
-
-TEST(tList, test_operator_ravno_different_memory)
-{
-	List<int> l(2, 0);
-	List<int> l1(2, 0);
-
-	l[1] = 1;
-
-	l1 = l;
-
-	l1[1] = 10;
-
-	EXPECT_EQ(1, l[1]);
-	EXPECT_EQ(10, l1[1]);
-}
-
-TEST(tList, test_operator_skobki) 
-{
-	List<int> l(2, 0);
-	List<int> l1(2, 0);
-
-	l[1] = 1;
-	l1[1] = l[1];
-
-	EXPECT_EQ(l, l1);
-}
-
-TEST(tList, test_operator_skobki_negative_index)
-{
-	List<int> l(2, 0);
-
-	ASSERT_ANY_THROW(l[4]);
-}
-
-TEST(tList, test_get_size_equal)
-{
-	List<int> l(2);
-
-	int res = l.size();
-
-	EXPECT_EQ(2 + 1, res);
-}
-
-TEST(tList, test_get_index)
-{
-	List<int> l(2);
-
-	ASSERT_ANY_THROW(l.get_index(7));
-}
-
-TEST(tList, test_insert_equal_type)
-{
-	List<int> l(2);
-	int sz = l.size();
-
-	l.insert(1, l.get_index(1));
-
-	EXPECT_EQ(1, l[2]);
-	EXPECT_EQ(4, sz + 1);
-}
-
-TEST(tList, test_insert_different_type)
-{
-	List<int> l(2, 0);
-
-	ASSERT_ANY_THROW(l.insert('c', l.get_index(1)));
-}
-
-TEST(tList, test_insert_front)
-{
-	List<int> l(2);
-	int sz = l.size();
-
-	l.insert_front(1);
-
-	EXPECT_EQ(1, l[0]);
-	EXPECT_EQ(4, sz + 1);
-}
-
-TEST(tList, test_insert_front_different_type)
-{
-	List<int> l(2, 0);
-
-	ASSERT_ANY_THROW(l.insert_front('c'));
-}
-
-TEST(tList, test_erase)
-{
-	List<int> l(3, 0);
-	int sz = l.size();
-
-	l[2] = 1;
-
-	l.erase(l.get_index(1));
-
-	EXPECT_EQ(0, l[2]);
-	EXPECT_EQ(3, sz - 1);
-}
-
-TEST(tList, test_erase_front)
-{
-	List<int> l(3, 0);
-	int sz = l.size();
-
-	l[0] = 1;
-
-	l.erase_front();
-
-	EXPECT_EQ(0, l[0]);
-	EXPECT_EQ(3, sz - 1);
-}
-
-TEST(tList, test_find_true)
-{
-	List<int> l(3, 0);
+	s1 = s;
 	
-	l[3] = 1;
+	s1.change(2);
 
-	EXPECT_EQ(l.get_index(3), l.find(1));
+	EXPECT_EQ(3, s.top());
+	EXPECT_EQ(2, s1.top());
 }
 
-TEST(tList, test_find_false)
+TEST(tStack, test_push_data)
 {
-	List<int> l(3, 0);
+	Stack<int> s(1, 0);
 
-	ASSERT_ANY_THROW(l.find(1));
+	s.push(3);
+
+	EXPECT_EQ(3, s.top());
 }
 
-TEST(tList, test_get_first)
+TEST(tStack, test_push_top)
 {
-	List<int> l(3, 0);
+	Stack<int> s(1, 0);
 
-	EXPECT_EQ(l.get_index(0), l.get_first());
+	s.push(3);
+
+	EXPECT_EQ(2, s.size());
 }
 
-TEST(tList, test_ostr)
+TEST(tStack, test_pop_data)
 {
-	List<int> l(2);
+	Stack<int> s(1, 0);
 
-	l[1] = 2;
+	s.push(1);
+	s.pop();
 
-	ASSERT_NO_THROW(std::cout << l);
+	EXPECT_EQ(0, s.top());
 }
 
-TEST(iterator, test_begin_and_end_and_PlusPlus_and_index)
+TEST(tStack, test_pop_top)
 {
-	List<int> l(2);
+	Stack<int> s(2, 0);
 
-	l[0] = 1;
-	l[2] = 2;
+	s.pop();
 
-	auto it = l.begin();
-	auto itBegin = it;
-	int first = *it;
-	auto itSecond = ++it;
-	int second = *itSecond;
-	auto itLast = ++it;
-	int last = *itLast;
-
-	EXPECT_EQ(1, first);
-	EXPECT_EQ(0, second);
-	EXPECT_EQ(2, last);
+	EXPECT_EQ(1, s.size());
 }
 
-TEST(ZADACHA, number_15) 
+TEST(tStack, test_pop_empty)
 {
-	List<int> l(2, 1);
-	List<int> l1(0);
-	List<int> l2('c', 3, 2);
+	Stack<int> s;
+	
+	ASSERT_ANY_THROW(s.pop());
+}
 
+TEST(tStack, test_top)
+{
+	Stack<int> s(2, 0);
 
-	EXPECT_EQ(false, l.hasCycle());
-	EXPECT_EQ(false, l1.hasCycle());
-	EXPECT_EQ(true, l2.hasCycle());
+	s.push(2);
+
+	EXPECT_EQ(2, s.top());
+}
+
+TEST(tStack, test_top_empty)
+{
+	Stack<int> s;
+
+	ASSERT_ANY_THROW(s.top());
+}
+
+TEST(tStack, test_empty)
+{
+	Stack<int> s;
+
+	EXPECT_EQ(true, s.empty());
+}
+
+TEST(tStack, test_not_empty)
+{
+	Stack<int> s(1);
+
+	EXPECT_EQ(false, s.empty());
+}
+
+TEST(tStack, test_size)
+{
+	Stack<int> s(10);
+
+	EXPECT_EQ(10, s.size());
+}
+
+TEST(tStack, test_null_size)
+{
+	Stack<int> s;
+
+	EXPECT_EQ(0, s.size());
 }
