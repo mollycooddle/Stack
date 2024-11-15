@@ -162,3 +162,20 @@ TEST(tStack, test_null_size)
 
 	EXPECT_EQ(0, s.size());
 }
+
+TEST(tStack, test_push_pop)
+{
+	Stack<int> s(2, 0);
+
+	s.push(1);
+	s.pop();
+	s.push(1);
+	s.push(2);
+	s.push(3);
+	s.pop();
+	s.push(1);
+	s.pop();
+	s.pop();
+
+	EXPECT_EQ(1, s.top());
+}
