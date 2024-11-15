@@ -18,27 +18,6 @@ public:
 		data = std::vector<T>(n, value);
 	}
 
-	Stack(const Stack& other) : data(other.data), tp(other.tp) noexcept {}
-	
-	~Stack() = default;
-
-	Stack& operator=(const Stack& other) noexcept 
-	{
-		if (this != &other) {
-			data = other.data;
-			tp = other.tp;
-		}
-		return *this;
-	}
-
-	bool operator==(const Stack& other) const {
-		return (data == other.data) && (tp == other.tp);
-	}
-
-	bool operator!=(const Stack& other) const {
-		return (data != other.data) || (tp != other.tp);
-	}
-
 	void change(T value) noexcept
 	{
 		pop();

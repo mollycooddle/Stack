@@ -22,59 +22,6 @@ TEST(tStack, can_create_stack_negative_size)
 	ASSERT_ANY_THROW(Stack<int> s(-2, 0));
 }
 
-
-TEST(tStack, test_operator_ravno_equal_length)
-{
-	Stack<int> s(1, 0);
-	Stack<int> s1(2, 0);
-
-	s.push(3);
-
-	s1 = s;
-
-	EXPECT_EQ(s, s1);
-}
-
-TEST(tStack, test_operator_ravno_different_length)
-{
-	Stack<int> s(2, 0);
-	Stack<int> s1(2, 0);
-
-	s.push(3);
-
-	s1 = s;
-
-	EXPECT_EQ(s, s1);
-}
-
-TEST(tStack, test_operator_ravno_equal_list)
-{
-	Stack<int> s(1, 0);
-	Stack<int> s1(1, 0);
-
-	s.push(3);
-	s1.push(3);
-
-	s1 = s;
-
-	EXPECT_EQ(s, s1);
-}
-
-TEST(tStack, test_operator_ravno_different_memory)
-{
-	Stack<int> s(1, 0);
-	Stack<int> s1(2, 0);
-
-	s.push(3);
-
-	s1 = s;
-	
-	s1.change(2);
-
-	EXPECT_EQ(3, s.top());
-	EXPECT_EQ(2, s1.top());
-}
-
 TEST(tStack, test_push_data)
 {
 	Stack<int> s(1, 0);
