@@ -17,6 +17,12 @@ TEST(tStack, can_create_stack_with_two_parametr)
 	ASSERT_NO_THROW(Stack<int> s(2, 0));
 }
 
+TEST(tStack, can_create_stack_negative_size)
+{
+	ASSERT_ANY_THROW(Stack<int> s(-2, 0));
+}
+
+
 TEST(tStack, test_operator_ravno_equal_length)
 {
 	Stack<int> s(1, 0);

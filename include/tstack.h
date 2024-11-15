@@ -12,6 +12,9 @@ class Stack
 public:
 	Stack(int n = 0, T value = T()) : tp(n - 1)
 	{
+		if (n < 0)
+			throw "negative size";
+
 		data = std::vector<T>(n, value);
 	}
 
